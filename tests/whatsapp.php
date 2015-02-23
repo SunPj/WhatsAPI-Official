@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 require '../src/whatsprot.class.php';
 
@@ -40,7 +39,7 @@ for ($i=3; $i<$argc; $i++) {
 }
 
 echo "[] Logging in as '$nickname' ($sender)\n";
-$wa = new WhatsProt($sender, $imei, $nickname, TRUE);
+$wa = new WhatsProt($sender, $identity, $nickname, TRUE);
 
 $wa->connect();
 $wa->loginWithPassword($password);
@@ -86,7 +85,9 @@ if ($_SERVER['argv'][1] == "-l") {
     while (TRUE) {
         $wa->pollMessage();
         $data = $wa->getMessages();
-        if(!empty($data)) print_r($data);
+        if (!empty($data)) {
+            print_r($data);
+        }
         sleep(1);
     }
     exit(0);
