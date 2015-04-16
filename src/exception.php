@@ -47,3 +47,4 @@ abstract class CustomException extends Exception implements IException
  * connection to whatsapp
  */
 class ConnectionException extends Exception{}
+class LoginFailureException extends Exception{}

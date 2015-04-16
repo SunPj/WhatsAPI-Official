@@ -114,18 +114,19 @@ function createIconGD($file, $size = 100, $raw = true)
 {
     list($width, $height) = getimagesize($file);
     if ($width > $height) {
-        //landscape
-        $nheight = ($height / $width) * $size;
-        $nwidth  = $size;
+        $y = 0;
+        $x = ($width - $height) / 2;
+        $smallestSide = $height;
     } else {
-        $nwidth  = ($width / $height) * $size;
-        $nheight = $size;
+        $x = 0;
+        $y = ($height - $width) / 2;
+        $smallestSide = $width;
     }
 
-    $image_p = imagecreatetruecolor($nwidth, $nheight);
+    $image_p = imagecreatetruecolor($size, $size);
     $image = imagecreatefromstring(file_get_contents($file));
 
-    imagecopyresampled($image_p, $image, 0, 0, 0, 0, $nwidth, $nheight, $width, $height);
+    imagecopyresampled($image_p, $image, 0, 0, $x, $y, $size, $size, $smallestSide, $smallestSide);
     ob_start();
     imagejpeg($image_p);
     $i = ob_get_contents();
@@ -195,9 +196,7 @@ function updateData($nameFile, $WAver, $classesMD5 = "")
 
     $content = implode("\n", $content);
 
-    $open = fopen($file, 'w');
-    fwrite($open, $content);
-    fclose($open);
+    file_put_contents($file, $content);
 }
 
 /**
@@ -225,19 +224,19 @@ function get_mime($file)
         $mime  = finfo_file($finfo, $file);
         finfo_close($finfo);
         return $mime;
-    } else {
-        if (function_exists("mime_content_type")) {
-            return mime_content_type($file);
-        } else {
-            if ( ! strncasecmp(PHP_OS, 'WIN', 3) == 0 && ! stristr(ini_get("disable_functions"), "shell_exec")) {
-                $file = escapeshellarg($file);
-                $mime = shell_exec("file -bi " . $file);
-                return $mime;
-            } else {
-                return false;
-            }
-        }
     }
+
+    if (function_exists("mime_content_type")) {
+        return mime_content_type($file);
+    }
+
+    if (!strncasecmp(PHP_OS, 'WIN', 3) == 0 && !stristr(ini_get("disable_functions"), "shell_exec")) {
+        $file = escapeshellarg($file);
+        $mime = shell_exec("file -bi " . $file);
+        return $mime;
+    }
+
+    return false;
 }
 
 //Generate Array of Emojis iOS2, iOS5 and iOS7
