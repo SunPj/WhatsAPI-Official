@@ -186,7 +186,7 @@ class vCard
             $this->card .= "TEL;type=WORK,pager:" . $this->data['pager_tel'] . "\r\n";
         }
         if ($this->data['url']) {
-            $this->card .= "URL;type=WORK:" . $this->data['url'] . "\r\n";
+            $this->card .= "URL:" . $this->data['url'] . "\r\n";
         }
         if ($this->data['birthday']) {
             $this->card .= "BDAY:" . $this->data['birthday'] . "\r\n";
