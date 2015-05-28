@@ -2144,7 +2144,7 @@ class WhatsProt
      */
     protected function createMsgId($prefix)
     {
-        $msgid = "$prefix-" . time() . '-' . $this->messageCounter;
+        $msgid = "$prefix-" .$this->phoneNumber.'-'. time() . '-' . $this->messageCounter;
         $this->messageCounter++;
 
         return $msgid;

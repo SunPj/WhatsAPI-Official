@@ -119,9 +119,9 @@ class vCard
 
         $this->card = "BEGIN:VCARD\r\n";
         $this->card .= "VERSION:3.0\r\n";
-        $this->card .= "CLASS:" . $this->class . "\r\n";
-        $this->card .= "PRODID:-//class_vCard from WhatsAPI//NONSGML Version 1//EN\r\n";
-        $this->card .= "REV:" . $this->revisionDate . "\r\n";
+        //$this->card .= "CLASS:" . $this->class . "\r\n";
+        //$this->card .= "PRODID:-//class_vCard from WhatsAPI//NONSGML Version 1//EN\r\n";
+        //$this->card .= "REV:" . $this->revisionDate . "\r\n";
         $this->card .= "FN:" . $this->data['display_name'] . "\r\n";
         $this->card .= "N:"
             . $this->data['last_name'] . ";"
@@ -186,7 +186,7 @@ class vCard
             $this->card .= "TEL;type=WORK,pager:" . $this->data['pager_tel'] . "\r\n";
         }
         if ($this->data['url']) {
-            $this->card .= "URL;type=WORK:" . $this->data['url'] . "\r\n";
+            $this->card .= "URL:" . $this->data['url'] . "\r\n";
         }
         if ($this->data['birthday']) {
             $this->card .= "BDAY:" . $this->data['birthday'] . "\r\n";
@@ -197,10 +197,13 @@ class vCard
         if ($this->data['note']) {
             $this->card .= "NOTE:" . $this->data['note'] . "\r\n";
         }
+        if ($this->data['x-ablabel']) {
+            $this->card .= "X-ABLabel:" . $this->data['x-ablabel'] . "\r\n";
+        }
         if ($this->data['photo']) {
             $this->card .= $this->generatePhotoData();
         }
-        $this->card .= "TZ:" . $this->data['timezone'] . "\r\n";
+        //$this->card .= "TZ:" . $this->data['timezone'] . "\r\n";
         $this->card .= "END:VCARD\r\n";
     }
 
